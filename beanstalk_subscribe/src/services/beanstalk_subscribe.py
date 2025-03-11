@@ -15,6 +15,9 @@ class BeanstalkSubscribe(object):
 
         signal.signal(signal.SIGINT, self.interrupt_handler)
         signal.signal(signal.SIGTERM, self.terminate_handler)
+
+        self.list_work_directory = Config.get_property("list.work.directory")
+        self.list_staging_directory = Config.get_property("list.staging.directory")
         
     def set_up_client(self) -> type:
         beanstalk_server = Config.get_property("beanstalk.server")
@@ -96,7 +99,7 @@ class BeanstalkSubscribe(object):
             self.logger.info("Calling " + str(bash_script_name) + " with job.body=" + str(job.body))
             # result = subprocess.run(["/bin/sh", "-cex", bash_script_path, "", str(job.body)], capture_output=True, text=True, timeout=60)
             # result = subprocess.run(["/bin/sh", "-cex", bash_script_path, str(job.body)], capture_output=True, text=True, timeout=60)
-            result = subprocess.run(["/bin/sh", "-e", "-x", bash_script_path, str(job.body)], capture_output=True, text=True, timeout=60)
+            result = subprocess.run(["/bin/sh", "-e", "-x", bash_script_path, str(job.body), self.list_work_directory, self.list_staging_directory], capture_output=True, text=True, timeout=60)
             self.logger.info(str(result.stdout))
             job_file.write(result.stdout)
             job_file.write(result.stderr)

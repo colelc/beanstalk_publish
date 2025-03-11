@@ -3,4 +3,6 @@
 *.log
 resources/.env
 *__pycache__*
+beanstalk_subscribe/work/
+beanstalk_subscribe/mnt/dist_lists/
 

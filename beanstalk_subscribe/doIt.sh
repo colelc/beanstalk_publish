@@ -65,13 +65,20 @@ echo "staging dir:" $staging_dir
 # }
 
 #work_dir=/var/tmp/dist_lists
+current_dir=$(pwd)
+echo "current_dir:" $current_dir
+if [[ "$current_dir" == "$work_dir" ]]; then
+    echo "Oh no: the current dir is the working dir.  This is not allowed."
+    exit
+fi
+
 echo "Removing directory:" $work_dir
 #rm -fr /var/tmp/dist_lists
-#rm -rf $work_dir
+rm -rf $work_dir
 
 echo "Re-creating directory:" $work_dir
 #mkdir /var/tmp/dist_lists
-#mkdir $work_dir
+mkdir $work_dir
 
 echo "Rebuilding list: rebuild_list" $1 $work_dir
 # rebuild_list "$1" /var/tmp/dist_lists
